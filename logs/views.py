@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView
 from .models import LogEntry
 from .serializers import LogEntrySerializer
 
@@ -20,5 +20,10 @@ class LogEntryListView(ListAPIView):
         return queryset
 
 class LogEntryCreateView(CreateAPIView):
+    queryset = LogEntry.objects.all()
+    serializer_class = LogEntrySerializer
+
+
+class LogEntryDeleteView(DestroyAPIView):
     queryset = LogEntry.objects.all()
     serializer_class = LogEntrySerializer
