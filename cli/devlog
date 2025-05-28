@@ -1,0 +1,38 @@
+#!/bin/bash
+
+API_URL="http://127.0.0.1:8000"
+
+case "$1" in
+  show)
+    (echo "ID,Title,Tags,Created At"; \
+    curl -s "$API_URL/logs/" | \
+    jq -r '.[] | [(.id | tostring), .title, (.tags | join(",")), .created_at] | @csv') | \
+    csvlook
+    ;;
+  create)
+    read -p "Title: " title
+    read -p "Body: " body
+    read -p "Tags (comma-separated): " tags_input
+
+    # Convert comma-separated tags into JSON array format
+    IFS=',' read -ra tags_array <<< "$tags_input"
+    json_tags=$(printf '%s\n' "${tags_array[@]}" | jq -R . | jq -s .)
+
+    curl -s -X POST "$API_URL/logs/create/" \
+      -H "Content-Type: application/json" \
+      -d "{\"title\": \"$title\", \"body\": \"$body\", \"tags\": $json_tags}" | jq
+    ;;
+  tag_filter)
+    read -p "Tags to filter by (comma-separated): " filter_tags
+    # Remove spaces and encode commas properly
+    query=$(echo "$filter_tags" | tr -d ' ' | sed 's/,/%2C/g')
+
+    (echo "ID,Title,Tags,Created At"; \
+    curl -s "$API_URL/logs/?tags=$query" | \
+    jq -r '.[] | [(.id | tostring), .title, (.tags | join(",")), .created_at] | @csv') | \
+    csvlook
+    ;;
+  *)
+    echo "Usage: devlog {show|create|tag_filter}"
+    ;;
+esac
