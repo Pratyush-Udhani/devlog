@@ -1,0 +1,13 @@
+<ul>
+  {% for log in logs %}
+  <li>
+    <strong>{{ log.title }}</strong><br />
+    {{ log.body }}<br />
+    <small>Tags: {{ log.tags|join:", "}}</small><br />
+    <small>Created: {{ log.created_at }}</small>
+  </li>
+  <hr />
+  {% empty %}
+  <li>No tags found</li>
+  {% endfor %}
+</ul>

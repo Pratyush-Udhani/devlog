@@ -16,13 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from logs.views import LogEntryCreateView, LogEntryListView, LogEntryDeleteView
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+from logs.views import (
+    LogEntryCreateView,
+    LogEntryDeleteView,
+    LogEntryUnifiedView,
+    IndexView,
+)
+
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
 
 urlpatterns = [
+    path("", IndexView.as_view(), name="index"),
     path('admin/', admin.site.urls, name='admin'),
     path('logs/create/', LogEntryCreateView.as_view(), name='create_log'),
-    path('logs/', LogEntryListView.as_view(), name="get_logs"),
+    path("logs/", LogEntryUnifiedView.as_view(), name="get_logs"),
     path('logs/<int:pk>/delete/', LogEntryDeleteView.as_view(), name="delete_log"),
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
