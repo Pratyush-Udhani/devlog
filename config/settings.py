@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-e^nwg2s96%s)rqsbmy1w20dr4mw72t5px)1_&zb0=oxfnw-&u_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['devlog.mavlab.com', '127.0.0.1', 'localhost']
 APPEND_SLASH = True
 
 # Application definition
