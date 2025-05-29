@@ -22,6 +22,7 @@ from logs.views import (
     LogEntryDeleteView,
     LogEntryUnifiedView,
     IndexView,
+    LogEntryFormView
 )
 
 from drf_spectacular.views import (
@@ -34,9 +35,12 @@ from drf_spectacular.views import (
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path('admin/', admin.site.urls, name='admin'),
+
     path('logs/create/', LogEntryCreateView.as_view(), name='create_log'),
     path("logs/", LogEntryUnifiedView.as_view(), name="get_logs"),
     path('logs/<int:pk>/delete/', LogEntryDeleteView.as_view(), name="delete_log"),
+    path("logs/new/", LogEntryFormView.as_view(), name="create_log_form"),
+
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

@@ -1,0 +1,33 @@
+<dialog
+  open
+  id="logFormDialog"
+  style="
+    position: absolute;
+    z-index: 1000;
+    top: 30vh;
+    padding: 1rem;
+    border: black 2px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: white;
+  "
+>
+  <form
+    hx-post="/logs/create/"
+    hx-target="#logsContainer"
+    hx-swap="outerHTML"
+    hx-on="htmx:afterRequest: document.getElementById('logFormDialog').close()"
+  >
+    {% csrf_token %}
+    <label>Title</label><br />
+    <input type="text" name="title" value="" /><br />
+
+    <label>Body:</label><br />
+    <textarea name="body"></textarea><br />
+
+    <label>Tags (comma-separated):</label><br />
+    <input type="text" name="tags" /><br />
+
+    <button type="submit">Create</button>
+  </form>
+</dialog>

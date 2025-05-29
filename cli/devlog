@@ -14,14 +14,17 @@ case "$1" in
     read -p "body: " body
     read -p "tags (comma-separated): " tags_input
 
-    # convert comma-separated tags into json array format
-    ifs=',' read -ra tags_array <<< "$tags_input"
-    json_tags=$(printf '%s\n' "${tags_array[@]}" | jq -r . | jq -s .)
+    # Convert comma-separated tags into JSON array format
+    IFS=',' read -ra tags_array <<< "$tags_input"
+    json_tags=$(printf '%s\n' "${tags_array[@]}" | jq -R . | jq -s .)
 
-    curl -s -x post "$api_url/logs/create/" \
-      -h "content-type: application/json" \
+    # Debug print
+    echo "Sending JSON: {\"title\": \"$title\", \"body\": \"$body\", \"tags\": $json_tags}"
+
+    curl -s -X POST "$api_url/logs/create/" \
+      -H "Content-Type: application/json" \
       -d "{\"title\": \"$title\", \"body\": \"$body\", \"tags\": $json_tags}" | jq
-    ;;
+  ;;
   tag_filter)
     read -p "tags to filter by (comma-separated): " filter_tags
     # remove spaces and encode commas properly

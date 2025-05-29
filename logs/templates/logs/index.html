@@ -6,6 +6,9 @@
   </head>
   <body>
     <h1>My dev logs</h1>
+    <button hx-get="/logs/new" hx-target="body" hx-swap="beforeend">
+      + Add Log
+    </button>
 
     <div
       id="logsContainer"
