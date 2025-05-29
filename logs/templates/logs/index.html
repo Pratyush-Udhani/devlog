@@ -6,17 +6,40 @@
   </head>
   <body>
     <h1>My dev logs</h1>
+
+    <!-- Add Log Button -->
     <button hx-get="/logs/new" hx-target="body" hx-swap="beforeend">
       + Add Log
     </button>
 
-    <div
-      id="logsContainer"
-      hx-get="/logs/"
-      hx-target="#logsContainer"
-      hx-trigger="load"
-    >
-      Loading Logs...
+    <div style="display: inline-block; margin-left: 20px">
+      <details id="tagDropdown">
+        <summary>Filter by Tags</summary>
+        <form
+          id="tagFilterForm"
+          hx-get="/logs/"
+          hx-target="#logsContainer"
+          hx-push-url="true"
+        >
+          {% for tag in all_tags %}
+          <label>
+            <!-- prettier-ignore -->
+            <input
+            type="checkbox"
+            name="tags"
+            value="{{ tag }}"
+            {% if tag in selected_tags %}checked{% endif %}
+            onchange="this.form.submit()"
+          />
+            {{ tag }}
+          </label>
+          <br />
+          {% endfor %}
+        </form>
+      </details>
     </div>
+
+    <!-- Only this section should be HTMX-replaced -->
+    <div id="logsContainer">{% include "logs/partials/log_list.html" %}</div>
   </body>
 </html>
