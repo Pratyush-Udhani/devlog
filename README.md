@@ -6,6 +6,7 @@
 - `python manage.py runserver`
 
 ### CLI Commads: 
+- `chmod +x cli/devlog`
 - cli/devlog create | show | tag_filter
 
 <img width="1496" alt="Screenshot 2025-05-30 at 1 43 08 PM" src="https://github.com/user-attachments/assets/e8119217-444c-4717-808f-d95703bf7832" />
